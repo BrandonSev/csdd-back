@@ -9,7 +9,7 @@ const server = app.listen(port, (err) => {
   if (err) {
     console.error(`ERROR: ${err.message}`);
   } else {
-    console.log(`Server is listening on port ${port}`);
+    console.log(`Serveur demarré sur le port: ${port}`);
   }
 });
 
