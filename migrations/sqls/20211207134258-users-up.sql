@@ -1,4 +1,3 @@
-/* Replace with your SQL commands */
 CREATE TABLE `users`(
     id int PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     firstname VARCHAR(100) NOT NULL ,
