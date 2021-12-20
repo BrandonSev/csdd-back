@@ -7,7 +7,8 @@ class User {
   }
 
   static findOneById(id) {
-    const sql = "SELECT * FROM users WHERE id=?";
+    const sql =
+      "SELECT id, firstname, lastname, birthday, address, postal_code, city, email,phone, adoption_date, picture, cotisation_payed, active FROM users WHERE id=?";
     return connection.promise().query(sql, [id]);
   }
 
@@ -16,9 +17,19 @@ class User {
     return connection.promise().query(sql, [email]);
   }
 
-  static createOne(user) {
+  static createOne(userInformation) {
     const sql = "INSERT INTO users SET ?";
-    return connection.promise().query(sql, [user]);
+    return connection.promise().query(sql, [userInformation]);
+  }
+
+  static updateOneById(userInformation, id) {
+    const sql = "UPDATE users SET ? WHERE id=?";
+    return connection.promise().query(sql, [userInformation, id]);
+  }
+
+  static deleteOneById(id) {
+    const sql = "DELETE FROM users WHERE id = ?";
+    return connection.promise().query(sql, [id]);
   }
 }
 
