@@ -12,7 +12,7 @@ const userPayload = {
   email: "seveste.te@lol.fr",
   phone: "0768567654",
   password: "test",
-  status_id: 2,
+  status_id: 1,
 };
 
 const badUserPayload = {
