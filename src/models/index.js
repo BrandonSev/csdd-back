@@ -1,3 +1,4 @@
-const User = require("./user.model");
+const User = require("./users.model");
+const Roles = require("./roles.model");
 
-module.exports = { User };
+module.exports = { User, Roles };

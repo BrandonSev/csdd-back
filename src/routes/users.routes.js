@@ -1,63 +1,19 @@
 const usersRouter = require("express").Router();
 
+const { UserController } = require("../controllers");
 const { validatePutUser, validatePostUser } = require("../middleware/User");
-const { User } = require("../models");
 
-usersRouter.get("/", async (req, res) => {
-  try {
-    const [results] = await User.findMany();
-    res.json(results);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+// GET
+usersRouter.get("/", UserController.findMany);
+usersRouter.get("/:id", UserController.findOneById);
 
-usersRouter.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const [[results]] = await User.findOneById(id);
-    if (!results) return res.status(404).send();
-    res.json(results);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+// POST
+usersRouter.post("/", validatePostUser, UserController.createOne);
 
-usersRouter.post("/", validatePostUser, async (req, res) => {
-  try {
-    const [result] = await User.createOne(req.userInformation);
-    const [[userCreated]] = await User.findOneById(result.insertId);
-    return res.status(201).json({
-      message:
-        "Votre demande a bien été enregistrée, votre compte est en cours de validation, vous serez avertis par mail lors de l'activation de votre compte",
-      user: userCreated,
-    });
-  } catch (err) {
-    return res.status(500).json(err.message);
-  }
-});
+// PUT
+usersRouter.put("/:id", validatePutUser, UserController.updateOneById);
 
-usersRouter.put("/:id", validatePutUser, async (req, res) => {
-  try {
-    const [result] = await User.updateOneById(req.userInformation, req.params.id);
-    if (!result) return res.status(404).send();
-    const [[user]] = await User.findOneById(req.params.id);
-    return res.status(200).json({ message: "Le compte a bien été modifié", user });
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
-usersRouter.delete("/:id", async (req, res) => {
-  try {
-    const [result] = await User.deleteOneById(req.params.id);
-    if (!result.affectedRows) {
-      return res.status(404).send();
-    }
-    return res.status(204).json({ message: "Le compte à bien été supprimer" });
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+// DELETE
+usersRouter.delete("/:id", UserController.removeOneById);
 
 module.exports = usersRouter;
