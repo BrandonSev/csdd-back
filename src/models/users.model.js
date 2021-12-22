@@ -1,6 +1,7 @@
 const { connection } = require("../../db-connection");
 
 class User {
+  
   static findMany() {
     const sql = "SELECT * FROM users";
     return connection.promise().query(sql);

@@ -29,7 +29,7 @@ usersRouter.post("/", validatePostUser, async (req, res) => {
     const [[userCreated]] = await User.findOneById(result.insertId);
     return res.status(201).json({
       message:
-        "Votre demande à bien été enregistrer, votre compte est en cours de validation, vous serez avertis par mail lors de l'activation de votre compte",
+        "Votre demande a bien été enregistrée, votre compte est en cours de validation, vous serez avertis par mail lors de l'activation de votre compte",
       user: userCreated,
     });
   } catch (err) {
@@ -42,7 +42,7 @@ usersRouter.put("/:id", validatePutUser, async (req, res) => {
     const [result] = await User.updateOneById(req.userInformation, req.params.id);
     if (!result) return res.status(404).send();
     const [[user]] = await User.findOneById(req.params.id);
-    return res.status(200).json({ message: "Le compte à bien été modifier", user });
+    return res.status(200).json({ message: "Le compte a bien été modifié", user });
   } catch (err) {
     res.status(500).send(err.message);
   }
