@@ -1,4 +1,4 @@
-const Roles = require("../models/roles.model");
+const { Roles } = require("../models");
 
 const findMany = async (req, res) => {
   try {
@@ -9,10 +9,11 @@ const findMany = async (req, res) => {
   }
 };
 
-const findOnebyId = async (req, res) => {
+const findOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    const [[result]] = await Roles.findOnebyId(id);
+    const [[result]] = await Roles.findOneById(id);
+    if (!result) return res.status(404).send();
     return res.status(200).send(result);
   } catch (err) {
     res.status(500).send(err.message);
@@ -30,4 +31,27 @@ const createOne = async (req, res) => {
   }
 };
 
-module.exports = { findMany, findOnebyId, createOne };
+const updateOneById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await Roles.updateOneById(newValue, id);
+    const [[newRoles]] = await Roles.findOneById(result.id);
+    return res.status(201).send(newRoles);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+const removeOneById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [result] = await Roles.findOneById(id);
+    if (!result.length) return res.status(404).send();
+    await Roles.removeOneById(id);
+    return res.status(204).send();
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+module.exports = { findMany, findOneById, createOne, updateOneById, removeOneById };

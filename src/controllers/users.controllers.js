@@ -12,8 +12,8 @@ const findMany = async (req, res) => {
 
 // Méthode qui permet de recuperer un utilisateur par son ID
 const findOneById = async (req, res) => {
-  const { id } = req.params;
   try {
+    const { id } = req.params;
     const [[results]] = await User.findOneById(id);
     if (!results) return res.status(404).send();
     res.json(results);
