@@ -29,19 +29,13 @@ describe("Users API Endpoint", () => {
     const sql = "DELETE FROM users WHERE id > 0";
     const sql2 = "ALTER TABLE users AUTO_INCREMENT=1";
     const sql3 = "DELETE FROM status WHERE id > 0"; // VIDER LA TABLE STATUS
-    const sql4 = "DELETE FROM under_status WHERE id > 0"; // VIDER LA TABLE STATUS
-    const sql5 = "ALTER TABLE status AUTO_INCREMENT=1"; // INSERT STATUS
-    const sql6 = "ALTER TABLE under_status AUTO_INCREMENT=1"; // INSERT STATUS
-    const sql7 = "INSERT INTO under_status SET name='test'"; // INSERT STATUS
-    const sql8 = "INSERT INTO status SET name='test', under_status_id=1"; // INSERT STATUS
+    const sql4 = "ALTER TABLE status AUTO_INCREMENT=1"; // INSERT STATUS
+    const sql5 = "INSERT INTO status SET name='test'"; // INSERT STATUS
     await query(sql);
     await query(sql2);
     await query(sql3);
     await query(sql4);
     await query(sql5);
-    await query(sql6);
-    await query(sql7);
-    await query(sql8);
   });
 
   describe("Create a new user with valid value", () => {
