@@ -25,7 +25,7 @@ const createOne = async (req, res) => {
     const [result] = await Status.createOne(req.StatusInformation);
     const [[statusCreated]] = await Status.findOneById(result.insertId);
     return res.status(201).json({
-      message: "Votre Status a bien été ajouter",
+      message: "Votre statut a bien été ajouté",
       statu: statusCreated,
     });
   } catch (err) {
@@ -39,10 +39,10 @@ const removeOneById = async (req, res) => {
     if (!result.affectedRows) {
       return res.status(404).send();
     }
-    return res.status(204).json({ message: "Le statu à bien été supprimer" });
+    return res.status(204).json({ message: "Le statut a bien été supprimé" });
   } catch (err) {
     res.status(500).send(err.message);
   }
 };
 
-module.exports = { findMany, findOneById, createOne };
+module.exports = { findMany, findOneById, createOne, removeOneById };
