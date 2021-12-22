@@ -22,7 +22,8 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const [result] = await Status.createOne(req.StatusInformation);
+    const { name } = req.body;
+    const [result] = await Status.createOne(name);
     const [[statusCreated]] = await Status.findOneById(result.insertId);
     return res.status(201).json({
       message: "Votre statut a bien été ajouté",

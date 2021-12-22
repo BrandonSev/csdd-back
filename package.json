@@ -13,6 +13,7 @@
     "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "test": "NODE_ENV=test jest --testRunner='jest-circus/runner' --maxWorkers=1",
     "test:migrate-db": "db-migrate up -e test",
+    "test:rollback-last-db-migration": "db-migrate down -e test",
     "precommit": "lint-staged && npm run test",
     "init:husky": "rm -rf ./.husky && npx husky install && npx husky add .husky/pre-commit 'npx lint-staged'"
   },

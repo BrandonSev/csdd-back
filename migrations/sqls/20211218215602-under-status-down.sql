@@ -1,4 +1,4 @@
 /* Replace with your SQL commands */
-ALTER TABLE status DROP CONSTRAINT fk_under_status_id;
-ALTER TABLE status DROP under_status_id;
+ALTER TABLE under_status DROP CONSTRAINT fk_status_id;
+ALTER TABLE under_status DROP status_id;
 DROP TABLE IF EXISTS `under_status`;
