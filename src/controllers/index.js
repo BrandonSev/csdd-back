@@ -1,5 +1,6 @@
-const UserController = require("../controllers/users.controllers");
-const RolesController = require("../controllers/roles.controllers");
-const StatusController = require("../controllers/status.controllers");
+const UserController = require("./users.controllers");
+const RolesController = require("./roles.controllers");
+const StatusController = require("./status.controllers");
+const ReceptionPlaceController = require("./reception_place.controllers");
 
-module.exports = { UserController, RolesController, StatusController};
+module.exports = { UserController, RolesController, StatusController, ReceptionPlaceController};
