@@ -3,9 +3,9 @@ const { ReceptionPlace } = require("../models");
 const findMany = async (req, res) => {
   try {
     const [results] = await ReceptionPlace.findMany();
-    res.json(results);
+    return res.json(results);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -14,9 +14,9 @@ const findOneById = async (req, res) => {
   try {
     const [results] = await ReceptionPlace.findOneById(id);
     if (!results) return res.status(404).send("Lieu de Réception introuvable");
-    res.json(results);
+    return res.json(results);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -41,7 +41,7 @@ const deleteOneById = async (req, res) => {
     }
     return res.status(204).json("Lieu de Réception supprimé");
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 

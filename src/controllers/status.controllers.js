@@ -3,9 +3,9 @@ const { Status } = require("../models");
 const findMany = async (req, res) => {
   try {
     const [results] = await Status.findMany();
-    res.json(results);
+    return res.json(results);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -14,9 +14,9 @@ const findOneById = async (req, res) => {
   try {
     const [[results]] = await Status.findOneById(id);
     if (!results) return res.status(404).send();
-    res.json(results);
+    return res.json(results);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -42,7 +42,7 @@ const removeOneById = async (req, res) => {
     }
     return res.status(204).json({ message: "Le statut a bien été supprimé" });
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 

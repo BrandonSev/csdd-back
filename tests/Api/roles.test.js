@@ -47,6 +47,21 @@ describe("Roles API Endpoint", () => {
     });
   });
 
+  describe("Update one role not existing", () => {
+    it("PUT /api/roles/2 and should return code 404", async () => {
+      const res = await request(app).put("/api/roles/2").send();
+      expect(res.statusCode).toBe(404);
+    });
+  });
+
+  describe("Update one role existing", () => {
+    it("PUT /api/roles/2 and should return code 200", async () => {
+      const res = await request(app).put("/api/roles/1").send({ name: "Admin" });
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual(expect.arrayContaining([expect.objectContaining({ name: "Admin" })]));
+    });
+  });
+
   describe("Deleted one role existing", () => {
     it("DELETE /api/roles/1 and should return code 204", async () => {
       const res = await request(app).delete("/api/roles/1").send();
