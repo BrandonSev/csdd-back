@@ -5,7 +5,7 @@ const findMany = async (req, res) => {
     const [result] = await Roles.findMany();
     return res.status(200).send(result);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -16,7 +16,7 @@ const findOneById = async (req, res) => {
     if (!result) return res.status(404).send();
     return res.status(200).send(result);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -27,18 +27,18 @@ const createOne = async (req, res) => {
     const [[newRoles]] = await Roles.findOneById(result.insertId);
     return res.status(201).send(newRoles);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
 const updateOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await Roles.updateOneById(newValue, id);
-    const [[newRoles]] = await Roles.findOneById(result.id);
-    return res.status(201).send(newRoles);
+    await Roles.updateOneById(req.newRole, id);
+    const [newRoles] = await Roles.findOneById(id);
+    return res.status(200).send(newRoles);
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -50,7 +50,7 @@ const removeOneById = async (req, res) => {
     await Roles.removeOneById(id);
     return res.status(204).send();
   } catch (err) {
-    res.status(500).send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
