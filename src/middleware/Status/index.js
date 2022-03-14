@@ -1,4 +1,4 @@
-const { Status, Roles } = require("../../models");
+const { Status } = require("../../models");
 
 const validatePostStatus = async (req, res, next) => {
   try {
