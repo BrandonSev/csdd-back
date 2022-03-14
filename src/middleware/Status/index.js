@@ -1,4 +1,4 @@
-const { Status } = require("../../models");
+const { Status, Roles } = require("../../models");
 
 const validatePostStatus = async (req, res, next) => {
   try {
@@ -12,4 +12,19 @@ const validatePostStatus = async (req, res, next) => {
   }
 };
 
-module.exports = { validatePostStatus };
+const validatePutStatus = async (req, res, next) => {
+  const { name } = req.body;
+  const { id } = req.params;
+  const [ status ] = await Roles.findOneById(id);
+  if (!status.length) return res.status(404).send();
+  if (!name) return res.status(400).json({ message: "Fournissez des valeur correct"});
+  try {
+    const [role] =  await Roles.findOneByName(name);
+    if (role.length) return res.status(422).json({ message: "Un rôle sous ce nom existe déjà" });
+    req.newStatus = { name };
+    return next();
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+module.exports = { validatePostStatus, validatePutStatus };

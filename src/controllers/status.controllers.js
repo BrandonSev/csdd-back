@@ -34,6 +34,17 @@ const createOne = async (req, res) => {
   }
 };
 
+const updateOneById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Status.updateOneById(req.newStatus, id);
+    const [newStatus] = await Status.findOneById(id);
+    return res.status(200).send(newStatus);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};  
+
 const removeOneById = async (req, res) => {
   try {
     const [result] = await Status.deleteOneById(req.params.id);
@@ -46,4 +57,4 @@ const removeOneById = async (req, res) => {
   }
 };
 
-module.exports = { findMany, findOneById, createOne, removeOneById };
+module.exports = { findMany, findOneById, createOne, updateOneById, removeOneById };
