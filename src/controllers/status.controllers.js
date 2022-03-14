@@ -43,7 +43,7 @@ const updateOneById = async (req, res) => {
   } catch (err) {
     return res.status(500).send(err.message);
   }
-};  
+};
 
 const removeOneById = async (req, res) => {
   try {

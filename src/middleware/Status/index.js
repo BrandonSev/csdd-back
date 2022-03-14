@@ -15,11 +15,11 @@ const validatePostStatus = async (req, res, next) => {
 const validatePutStatus = async (req, res, next) => {
   const { name } = req.body;
   const { id } = req.params;
-  const [ status ] = await Roles.findOneById(id);
+  const [status] = await Roles.findOneById(id);
   if (!status.length) return res.status(404).send();
-  if (!name) return res.status(400).json({ message: "Fournissez des valeur correct"});
+  if (!name) return res.status(400).json({ message: "Fournissez des valeur correct" });
   try {
-    const [role] =  await Roles.findOneByName(name);
+    const [role] = await Roles.findOneByName(name);
     if (role.length) return res.status(422).json({ message: "Un rôle sous ce nom existe déjà" });
     req.newStatus = { name };
     return next();
