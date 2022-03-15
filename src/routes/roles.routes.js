@@ -1,6 +1,6 @@
+const rolesRouter = require("express").Router();
 const { RolesController } = require("../controllers");
 const { validatePostRoles, validatePutRoles } = require("../middleware/Roles");
-const rolesRouter = require("express").Router();
 
 // GET
 rolesRouter.get("/", RolesController.findMany);
