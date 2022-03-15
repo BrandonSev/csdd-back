@@ -4,14 +4,14 @@ const { StatusController } = require("../controllers");
 const { validatePostStatus } = require("../middleware/Status");
 // const { validatePostStatus } = require("../middleware/Status");
 
-//GET
+// GET
 statusRouter.get("/", StatusController.findMany);
 statusRouter.get("/:id", StatusController.findOneById);
 
-//POST
+// POST
 statusRouter.post("/", validatePostStatus, StatusController.createOne);
 
-//DELETE
+// DELETE
 statusRouter.delete("/:id", StatusController.removeOneById);
 
 module.exports = statusRouter;
