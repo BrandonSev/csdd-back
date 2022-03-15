@@ -1,12 +1,13 @@
 const statusRouter = require("express").Router();
-
 const { StatusController } = require("../controllers");
-const { validatePostStatus } = require("../middleware/Status");
-// const { validatePostStatus } = require("../middleware/Status");
+const { validatePostStatus, validatePutStatus } = require("../middleware/Status");
 
 // GET
 statusRouter.get("/", StatusController.findMany);
 statusRouter.get("/:id", StatusController.findOneById);
+
+// PUT
+statusRouter.put("/:id", validatePutStatus, StatusController.updateOneById);
 
 // POST
 statusRouter.post("/", validatePostStatus, StatusController.createOne);

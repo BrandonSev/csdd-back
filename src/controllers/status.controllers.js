@@ -27,10 +27,21 @@ const createOne = async (req, res) => {
     const [[statusCreated]] = await Status.findOneById(result.insertId);
     return res.status(201).json({
       message: "Votre statut a bien été ajouté",
-      statu: statusCreated,
+      status: statusCreated,
     });
   } catch (err) {
     return res.status(500).json(err.message);
+  }
+};
+
+const updateOneById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Status.updateOneById(req.newStatus, id);
+    const [newStatus] = await Status.findOneById(id);
+    return res.status(200).send(newStatus);
+  } catch (err) {
+    return res.status(500).send(err.message);
   }
 };
 
@@ -46,4 +57,4 @@ const removeOneById = async (req, res) => {
   }
 };
 
-module.exports = { findMany, findOneById, createOne, removeOneById };
+module.exports = { findMany, findOneById, createOne, updateOneById, removeOneById };
