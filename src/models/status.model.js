@@ -20,6 +20,7 @@ class Status {
     const sql = "INSERT INTO status SET name=?";
     return connection.promise().query(sql, [status]);
   }
+
   static deleteOneById(id) {
     const sql = "DELETE FROM status WHERE id=?";
     return connection.promise().query(sql, [id]);
