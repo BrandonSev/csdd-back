@@ -27,7 +27,7 @@ const createOne = async (req, res) => {
     const [[statusCreated]] = await Status.findOneById(result.insertId);
     return res.status(201).json({
       message: "Votre statut a bien été ajouté",
-      statu: statusCreated,
+      status: statusCreated,
     });
   } catch (err) {
     return res.status(500).json(err.message);
