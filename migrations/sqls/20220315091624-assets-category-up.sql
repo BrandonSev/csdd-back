@@ -1,7 +1,7 @@
 CREATE TABLE categories (
-    id int  NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id int  NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name varchar(255)  NOT NULL
-)
+);
 
 CREATE TABLE assets_category (
     assets_id int  NOT NULL ,

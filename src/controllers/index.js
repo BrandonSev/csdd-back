@@ -15,5 +15,5 @@ module.exports = {
   AdoptionPlaceController,
   ProvinceController,
   RoomController,
-  AssetsController
+  AssetsController,
 };
