@@ -12,7 +12,7 @@ const findMany = async (req, res) => {
 const findOneById = async (req, res) => {
   const { id } = req.params;
   try {
-    const [results] = await Province.findOneById(id);
+    const [[results]] = await Province.findOneById(id);
     if (!results) return res.status(404).send("Province incorrecte");
     return res.json(results);
   } catch (err) {
@@ -35,10 +35,10 @@ const createOne = async (req, res) => {
 
 const updateOneById = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
     await Province.updateOneById(req.province, id);
-    const [[province]] = await Province.updateOneById(id);
-    return res.status(200).json({ message: "La Province a bien été mise à jour" }, province);
+    const [[province]] = await Province.findOneById(id);
+    return res.status(200).json({ message: "La Province a bien été mise à jour", province });
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -47,7 +47,7 @@ const updateOneById = async (req, res) => {
 const deleteOneById = async (req, res) => {
   try {
     const [result] = await Province.deleteOneById(req.params.id);
-    if (!result) {
+    if (result.affectedRows <= 0) {
       return res.status(404).send("Province introuvable");
     }
     return res.status(204).json("Province supprimée");

@@ -40,14 +40,13 @@ const validatePutUser = async (req, res, next) => {
 
 const validatePostUser = async (req, res, next) => {
   try {
-    const { firstname, lastname, birthday, address, postal_code, city, email, phone, password, status_id } = req.body;
-    const user = { firstname, lastname, birthday, address, postal_code, city, email, phone, password };
-    if (status_id) user.status_id = status_id;
+    const { firstname, lastname, birthday, address, postal_code, city, email, phone, password, adoption_place_id, province_id } = req.body;
+    const user = { firstname, lastname, birthday, address, postal_code, city, email, phone, password, province_id, adoption_place_id };
     const [[userWithEmail]] = await User.findOneByEmail(email);
     if (email && userWithEmail) {
       return res.status(422).json({ message: "Cet email est déjà enregistré, veuillez vous connecter" });
     }
-    if (firstname && lastname && birthday && address && postal_code && city && email && phone && password) {
+    if (firstname && lastname && birthday && address && postal_code && city && email && phone && password && province_id && adoption_place_id) {
       req.userInformation = user;
       return next();
     }

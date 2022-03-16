@@ -25,6 +25,11 @@ class ReceptionPlace {
     const sql = "DELETE FROM reception_place WHERE id = ?";
     return connection.promise().query(sql, [id]);
   }
+
+  static findOneByName(name) {
+    const sql = "SELECT * FROM reception_place WHERE name=?";
+    return connection.promise().query(sql, [name]);
+  }
 }
 
 module.exports = ReceptionPlace;
