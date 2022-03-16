@@ -17,7 +17,7 @@ class Message {
   }
 
   static createOne(name) {
-    const sql = "INSERT INTO messages SET name=?";
+    const sql = "INSERT INTO messages SET ?";
     return connection.promise().query(sql, [name]);
   }
 
@@ -27,7 +27,7 @@ class Message {
   }
 
   static removeOneById(id) {
-    const sql = "DELETE FROM Message WHERE id=?";
+    const sql = "DELETE FROM messages WHERE id=?";
     return connection.promise().query(sql, [id]);
   }
 }

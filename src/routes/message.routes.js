@@ -1,13 +1,10 @@
 const messageRouter = require("express").Router();
 const { MessageController } = require("../controllers");
-const { validatePostMessage, validatePutMessage } = require("../middleware/Roles");
+const { validatePostMessage } = require("../middleware/Message");
 
 // GET
 messageRouter.get("/", MessageController.findMany);
 messageRouter.get("/:id", MessageController.findOneById);
-
-// PUT
-messageRouter.put("/:id", validatePutMessage, MessageController.updateOneById);
 
 // POST
 messageRouter.post("/", validatePostMessage, MessageController.createOne);
