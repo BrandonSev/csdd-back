@@ -1,13 +1,14 @@
 const provinceRouter = require("express").Router();
 
 const { ProvinceController } = require("../controllers");
+const { validateCreateProvince, validatePutProvince } = require("../middleware/Province");
 
 provinceRouter.get("/", ProvinceController.findMany);
 provinceRouter.get("/:id", ProvinceController.findOneById);
 
-provinceRouter.post("/", ProvinceController.createOne);
+provinceRouter.post("/", validateCreateProvince, ProvinceController.createOne);
 
-provinceRouter.put("/:id", ProvinceController.updateOneById);
+provinceRouter.put("/:id", validatePutProvince, ProvinceController.updateOneById);
 
 provinceRouter.delete("/:id", ProvinceController.deleteOneById);
 
