@@ -12,7 +12,8 @@ const userPayload = {
   email: "seveste.te@lol.fr",
   phone: "0768567654",
   password: "test",
-  status_id: 1,
+  province_id: 1,
+  adoption_place_id: 1,
 };
 
 const badUserPayload = {
@@ -28,14 +29,20 @@ describe("Users API Endpoint", () => {
   beforeAll(async () => {
     const sql = "DELETE FROM users WHERE id > 0";
     const sql2 = "ALTER TABLE users AUTO_INCREMENT=1";
-    const sql3 = "DELETE FROM status WHERE id > 0"; // VIDER LA TABLE STATUS
-    const sql4 = "ALTER TABLE status AUTO_INCREMENT=1"; // INSERT STATUS
-    const sql5 = "INSERT INTO status SET name='test'"; // INSERT STATUS
+    const sql3 = "DELETE FROM province WHERE id > 0";
+    const sql4 = "ALTER TABLE province AUTO_INCREMENT=1";
+    const sql5 = "INSERT INTO province SET name='Province'";
+    const sql6 = "DELETE FROM adoption_place WHERE id > 0";
+    const sql7 = "ALTER TABLE adoption_place AUTO_INCREMENT=1";
+    const sql8 = "INSERT INTO adoption_place SET name='Adoption'";
     await query(sql);
     await query(sql2);
     await query(sql3);
     await query(sql4);
     await query(sql5);
+    await query(sql6);
+    await query(sql7);
+    await query(sql8);
   });
 
   describe("Create a new user with valid value", () => {
