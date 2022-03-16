@@ -70,7 +70,7 @@ describe("Reception place API Endpoint", () => {
     });
   });
 
-  describe("Deleted one province not existing", () => {
+  describe("Deleted one reception not existing", () => {
     it("DELETE /api/province/2 and should return code 404", async () => {
       const res = await request(app).delete("/api/province/3").send();
       expect(res.statusCode).toBe(404);
