@@ -8,6 +8,7 @@ const adoptionPlaceRouter = require("./adoption_place.routes");
 const provinceRouter = require("./province.routes");
 const roomRouter = require("./room.routes");
 const underStatusRouter = require("./under_status.routes");
+const eventsRouter = require("./events.routes");
 
 mainRouter.use("/users", usersRouter);
 mainRouter.use("/roles", rolesRouter);
@@ -18,5 +19,6 @@ mainRouter.use("/adoptionPlace", adoptionPlaceRouter);
 mainRouter.use("/province", provinceRouter);
 mainRouter.use("/room", roomRouter);
 mainRouter.use("/underStatus", underStatusRouter);
+mainRouter.use("/events", eventsRouter);
 
 module.exports = mainRouter;
