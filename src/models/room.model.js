@@ -25,6 +25,11 @@ class Room {
     const sql = "DELETE FROM room WHERE id = ?";
     return connection.promise().query(sql, [id]);
   }
+
+  static findOneByName(name) {
+    const sql = "SELECT * from room WHERE name=?";
+    return connection.promise().query(sql, [name]);
+  }
 }
 
 module.exports = Room;

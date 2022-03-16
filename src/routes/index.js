@@ -17,7 +17,7 @@ mainRouter.use("/receptionPlace", receptionPlaceRouter);
 mainRouter.use("/assets", assetsRouter);
 mainRouter.use("/adoptionPlace", adoptionPlaceRouter);
 mainRouter.use("/province", provinceRouter);
-mainRouter.use("/room", roomRouter);
+mainRouter.use("/rooms", roomRouter);
 mainRouter.use("/underStatus", underStatusRouter);
 mainRouter.use("/messages", messagesRouter);
 
