@@ -7,6 +7,7 @@ const AdoptionPlaceController = require("./adoption_place.controllers");
 const ProvinceController = require("./province.controllers");
 const RoomController = require("./room.controllers");
 const UnderStatusController = require("./under_status.controllers");
+const BooksController = require("./books.controllers");
 
 module.exports = {
   UserController,
@@ -18,4 +19,5 @@ module.exports = {
   RoomController,
   AssetsController,
   UnderStatusController,
+  BooksController,
 };
