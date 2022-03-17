@@ -25,7 +25,7 @@ const validatePutJobOffers = async (req, res, next) => {
     req.newJobOffers = { reference, poste, city, description, created_at, updated_at };
     return next();
   } catch (err) {
-    return res.satuts(500).send(err.message);
+    return res.statuts(500).send(err.message);
   }
 };
 
