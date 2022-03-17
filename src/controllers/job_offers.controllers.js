@@ -22,7 +22,7 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const [result] = await JobOffers.createOne(req.newJobOffers);
+    const [result] = await JobOffers.createOne(req.job_offers);
     const [[newJobOffers]] = await JobOffers.findOneById(result.insertId);
     return res.status(201).send(newJobOffers);
   } catch (err) {
@@ -33,7 +33,7 @@ const createOne = async (req, res) => {
 const updateOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    await JobOffers.updateOneById(req.newRole, id);
+    await JobOffers.updateOneById(req.job_offers, id);
     const [newJobOffers] = await JobOffers.findOneById(id);
     return res.status(200).send(newJobOffers);
   } catch (err) {
