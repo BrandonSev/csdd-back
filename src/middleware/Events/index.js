@@ -6,6 +6,7 @@ const validatePostEvents = async (req, res, next) => {
   try {
     const [events] = await Events.findOneByName(filename);
     if (events.length) return res.status(422).json({ message: "Un rôle sous ce nom existe déjà" });
+    req.newEvents = { filename, event_date, description };
     return next();
   } catch (err) {
     return res.status(500).send(err.message);
