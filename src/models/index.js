@@ -11,4 +11,4 @@ const Events = require("./events.models");
 const Books = require("./books.model");
 const Message = require("./message.model");
 
-module.exports = { User, Status, Roles, ReceptionPlace, Assets, AdoptionPlace, Province, Room, UnderStatus, Message, Books };
+module.exports = { User, Status, Roles, ReceptionPlace, Assets, AdoptionPlace, Province, Room, UnderStatus, Message, Books, Events };
