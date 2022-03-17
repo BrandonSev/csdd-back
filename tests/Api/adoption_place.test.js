@@ -4,8 +4,8 @@ const app = require("../../src/app");
 
 describe("Adoption place API Endpoint", () => {
   beforeAll(async () => {
-    const sql = "DELETE FROM adoption_place WHERE id > 0";
-    const sql2 = "ALTER TABLE adoption_place AUTO_INCREMENT=1";
+    const sql = "SET FOREIGN_KEY_CHECKS=0;DELETE FROM adoption_place WHERE id > 0;";
+    const sql2 = "ALTER TABLE adoption_place AUTO_INCREMENT=1; SET FOREIGN_KEY_CHECKS=1;";
     await query(sql);
     await query(sql2);
   });
