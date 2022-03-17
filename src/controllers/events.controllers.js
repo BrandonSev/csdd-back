@@ -22,8 +22,8 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const { name } = req.body;
-    const [result] = await Events.createOne(name);
+    const { filename } = req.body;
+    const [result] = await Events.createOne(filename);
     const [[newEvents]] = await Events.findOneById(result.insertId);
     return res.status(201).send(newEvents);
   } catch (err) {

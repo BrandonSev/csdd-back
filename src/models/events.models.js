@@ -11,14 +11,14 @@ class Events {
     return connection.promise().query(sql, [id]);
   }
 
-  static findOneByName(name) {
-    const sql = "SELECT * FROM events WHERE name=?";
-    return connection.promise().query(sql, [name]);
+  static findOneByName(filename) {
+    const sql = "SELECT * FROM events WHERE filename=?";
+    return connection.promise().query(sql, [filename]);
   }
 
-  static createOne(name) {
-    const sql = "INSERT INTO events SET name=?";
-    return connection.promise().query(sql, [name]);
+  static createOne(filename) {
+    const sql = "INSERT INTO events SET ?";
+    return connection.promise().query(sql, [filename]);
   }
 
   static updateOneById(newValue, id) {
