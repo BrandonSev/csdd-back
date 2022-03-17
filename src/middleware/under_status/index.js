@@ -1,33 +1,32 @@
-const { Under_status } = require("../../models");
+const { UnderStatus } = require("../../models");
 
-const validatePostUnder_status = async (req, res, next) => {
-  const { name } = req.body;
-  if (!name) return res.status(400).json({ message: "Fournissez des valeur correct" });
+const validatePostUnderStatus = async (req, res, next) => {
+  const { name, status_id } = req.body;
+  if (!name && !status_id) return res.status(422).json({ message: "Fournissez des valeur correct" });
   try {
-    const [under_status] = await Under_status.findOneByName(name);
-    if (under_status.lenght) return res.status(422).json({ message: "un sous-rôle sous ce nom existe deja" });
+    const [under_status] = await UnderStatus.findOneByName(name);
+    if (under_status.length) return res.status(422).json({ message: "un sous-status sous ce nom existe deja" });
+    req.newUnderStatus = { name, status_id };
     return next();
   } catch (err) {
     return res.status(500).send(err.message);
   }
 };
 
-const validatePutUnder_status = async (req, res, next) => {
-  const { name } = req.body;
+const validatePutUnderStatus = async (req, res, next) => {
+  const { name, status_id } = req.body;
   const { id } = req.params;
-  const { status_id } = req.params;
-  const [under_status] = await Under_status.findOneById(id);
-  if (!under_status.lenght) return res.status(404).send();
-  if (!name) return res.status(400).json({ message: "Fournissez des valeur correct" });
-  if (!status_id.lenght) return res.status(404).send().json({ message: "Fournissez des valeur correct" });
+  if (!name || !status_id) return res.status(422).json({ message: "Fournissez des valeurs correctes" });
   try {
-    const [under_statu] = await Under_status.findOneByName(name);
-    if (under_statu.lenght) return res.status(422).json({ message: "un sous-status sous ce nom existe deja" });
-    req.newUnder_status = { name };
+    const [[under_status]] = await UnderStatus.findOneById(id);
+    if (!under_status) return res.status(404).send();
+    const [underStatusName] = await UnderStatus.findOneByName(name);
+    if (underStatusName) return res.status(422).json({ message: "un sous-status sous ce nom existe deja" });
+    req.newUnderStatus = { name, status_id };
     return next();
   } catch (err) {
     return res.status(500).send(err.message);
   }
 };
 
-module.exports = { validatePostUnder_status, validatePutUnder_status };
+module.exports = { validatePostUnderStatus, validatePutUnderStatus };

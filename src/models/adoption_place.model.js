@@ -7,7 +7,7 @@ class AdoptionPlace {
   }
 
   static findOneById(id) {
-    const sql = "SELECT * FROM adotion_place WHERE id = ?";
+    const sql = "SELECT * FROM adoption_place WHERE id = ?";
     return connection.promise().query(sql, [id]);
   }
 
@@ -17,13 +17,18 @@ class AdoptionPlace {
   }
 
   static updateOneById(adoption_place, id) {
-    const sql = "INSERT INTO adoption_place SET ? WHERE Id = ?";
+    const sql = "UPDATE adoption_place SET ? WHERE id = ?";
     return connection.promise().query(sql, [adoption_place, id]);
   }
 
   static deleteOneById(id) {
     const sql = "DELETE FROM adoption_place WHERE id = ?";
     return connection.promise().query(sql, [id]);
+  }
+
+  static findOneByName(name) {
+    const sql = "SELECT * FROM adoption_place WHERE name=?";
+    return connection.promise().query(sql, [name]);
   }
 }
 

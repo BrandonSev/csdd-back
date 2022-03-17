@@ -27,7 +27,7 @@ class Message {
   }
 
   static removeOneById(id) {
-    const sql = "DELETE FROM Message WHERE id=?";
+    const sql = "DELETE FROM messages WHERE id=?";
     return connection.promise().query(sql, [id]);
   }
 }
