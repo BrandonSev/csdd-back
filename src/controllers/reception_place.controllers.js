@@ -12,8 +12,8 @@ const findMany = async (req, res) => {
 const findOneById = async (req, res) => {
   const { id } = req.params;
   try {
-    const [results] = await ReceptionPlace.findOneById(id);
-    if (!results) return res.status(404).send("Lieu de Réception incorrect");
+    const [[results]] = await ReceptionPlace.findOneById(id);
+    if (!results) return res.status(404).send("Lieu de réception incorrect");
     return res.json(results);
   } catch (err) {
     return res.status(500).send(err.message);
@@ -25,7 +25,7 @@ const createOne = async (req, res) => {
     const [result] = await ReceptionPlace.createOne(req.reception_place);
     const [[receptionPlaceCreated]] = await ReceptionPlace.findOneById(result.insertId);
     return res.status(201).json({
-      message: "Lieu de Réception créé",
+      message: "Lieu de réception créé",
       reception_place: receptionPlaceCreated,
     });
   } catch (err) {
@@ -35,10 +35,10 @@ const createOne = async (req, res) => {
 
 const updateOneById = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
     await ReceptionPlace.updateOneById(req.reception_place, id);
-    const [[reception_place]] = await ReceptionPlace.updateOneById(id);
-    return res.status(200).json({ message: "La Reception Place a bien été mise à jour" }, reception_place);
+    const [[reception_place]] = await ReceptionPlace.findOneById(id);
+    return res.status(200).json({ message: "La Reception Place a bien été mise à jour", reception_place });
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -47,10 +47,10 @@ const updateOneById = async (req, res) => {
 const deleteOneById = async (req, res) => {
   try {
     const [result] = await ReceptionPlace.deleteOneById(req.params.id);
-    if (!result) {
+    if (result.affectedRows <= 0) {
       return res.status(404).send("Lieu de Réception introuvable");
     }
-    return res.status(204).json("Lieu de Réception supprimé");
+    return res.status(204).send();
   } catch (err) {
     return res.status(500).send(err.message);
   }

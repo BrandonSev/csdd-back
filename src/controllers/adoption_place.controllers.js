@@ -10,9 +10,9 @@ const findMany = async (req, res) => {
 };
 
 const findOneById = async (req, res) => {
-  const { id } = req.params.id;
+  const { id } = req.params;
   try {
-    const [results] = await AdoptionPlace.findOneById(id);
+    const [[results]] = await AdoptionPlace.findOneById(id);
     if (!results) return res.status(404).send("Lieu d'adoption incorrect");
     return res.json(results);
   } catch (err) {
@@ -35,10 +35,10 @@ const createOne = async (req, res) => {
 
 const updateOneById = async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const { id } = req.params;
     await AdoptionPlace.updateOneById(req.adoption_place, id);
-    const [[adoption_place]] = await AdoptionPlace.updateOneById(id);
-    return res.status(200).json({ message: "L'adoption Place a bien été mise à jour" }, adoption_place);
+    const [[adoption_place]] = await AdoptionPlace.findOneById(id);
+    return res.status(200).json({ message: "L'adoption Place a bien été mise à jour", adoption_place });
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -47,7 +47,7 @@ const updateOneById = async (req, res) => {
 const deleteOneById = async (req, res) => {
   try {
     const [result] = await AdoptionPlace.deleteOneById(req.params.id);
-    if (!result) {
+    if (result.affectedRows <= 0) {
       return res.status(404).send("Lieu d'adoption introuvable");
     }
     return res.status(204).json("Lieu d'adoption supprimé");

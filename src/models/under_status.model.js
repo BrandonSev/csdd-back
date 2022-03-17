@@ -17,7 +17,7 @@ class Under_status {
   }
 
   static createOne(name) {
-    const sql = "INSERT INTO under_status SET name=?";
+    const sql = "INSERT INTO under_status SET ?";
     return connection.promise().query(sql, [name]);
   }
 

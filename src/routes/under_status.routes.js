@@ -1,18 +1,18 @@
-const under_statusRouter = require("express").Router();
-const { Under_statusController } = require("../controllers");
-const { validatePostUnder_status, validatePutUnder_status } = require("../middleware/under_status");
+const underStatusRouter = require("express").Router();
+const { UnderStatusController } = require("../controllers");
+const { validatePostUnderStatus, validatePutUnderStatus } = require("../middleware/under_status");
 
 // GET
-under_statusRouter.get("/", Under_statusController.findMany);
-under_statusRouter.get("/:id", Under_statusController.findOneById);
+underStatusRouter.get("/", UnderStatusController.findMany);
+underStatusRouter.get("/:id", UnderStatusController.findOneById);
 
 // PUT
-under_statusRouter.put("/:id", validatePutUnder_status, Under_statusController.updateOneById);
+underStatusRouter.put("/:id", validatePutUnderStatus, UnderStatusController.updateOneById);
 
 // POST
-under_statusRouter.post("/", validatePostUnder_status, Under_statusController.createOne);
+underStatusRouter.post("/", validatePostUnderStatus, UnderStatusController.createOne);
 
 // DELETE
-under_statusRouter.delete("/:id", Under_statusController.removeOneById);
+underStatusRouter.delete("/:id", UnderStatusController.removeOneById);
 
-module.exports = under_statusRouter;
+module.exports = underStatusRouter;

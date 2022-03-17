@@ -7,5 +7,8 @@ const AdoptionPlace = require("./adoption_place.model");
 const Province = require("./province.model");
 const Room = require("./room.model");
 const JobOffers = require("./job_offers.model");
+const UnderStatus = require("./under_status.model");
+const Books = require("./books.model");
+const Message = require("./message.model");
 
-module.exports = { User, Status, Roles, ReceptionPlace, Assets, AdoptionPlace, Province, Room, JobOffers };
+module.exports = { User, Status, Roles, ReceptionPlace, Assets, AdoptionPlace, Province, Room, JobOffers, UnderStatus, Message, Books };
