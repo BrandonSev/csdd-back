@@ -11,14 +11,19 @@ class JobOffers {
     return connection.promise().query(sql, [id]);
   }
 
-  static findOneByName(post) {
-    const sql = "SELECT * FROM job_offers WHERE name=?";
-    return connection.promise().query(sql, [post]);
+  // static findOneByName(poste) {
+  //   const sql = "SELECT * FROM job_offers WHERE poste=?";
+  //   return connection.promise().query(sql, [poste]);
+  // }
+
+  static findOneByReference(reference) {
+    const sql = "SELECT * FROM job_offers WHERE reference=?";
+    return connection.promise().query(sql, [reference]);
   }
 
-  static createOne(post) {
+  static createOne(poste) {
     const sql = "INSERT INTO job_offers SET ?";
-    return connection.promise().query(sql, [post]);
+    return connection.promise().query(sql, [poste]);
   }
 
   static updateOneById(newValue, id) {
