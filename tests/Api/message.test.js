@@ -84,4 +84,8 @@ describe("Message API Endpoint", () => {
       expect(res.statusCode).toBe(404);
     });
   });
+
+  afterAll(async () => {
+    await request(app).delete("/api/users/1").send();
+  });
 });
