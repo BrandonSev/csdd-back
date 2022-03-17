@@ -13,7 +13,7 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "prettier/prettier": ["error", {}, { usePrettierrc: true }], // Use our .prettierrc file as source
+    "prettier/prettier": ["error", { endOfLine: "auto" }, { usePrettierrc: true }], // Use our .prettierrc file as source
     "no-console": 1,
     camelcase: 0,
   },
