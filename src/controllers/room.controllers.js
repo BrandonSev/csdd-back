@@ -12,7 +12,7 @@ const findMany = async (req, res) => {
 const findOneById = async (req, res) => {
   const { id } = req.params;
   try {
-    const [results] = await Room.findOneById(id);
+    const [[results]] = await Room.findOneById(id);
     if (!results) return res.status(404).send("Chambre inconnue");
     return res.json(results);
   } catch (err) {
@@ -22,7 +22,7 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const [result] = await Room.createOne(req.room);
+    const [result] = await Room.createOne(req.newRoom);
     const [[roomCreated]] = await Room.findOneById(result.insertId);
     return res.status(201).json({
       message: "Chambre créée",
@@ -36,9 +36,9 @@ const createOne = async (req, res) => {
 const updateOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Room.updateOneById(req.room, id);
-    const [[room]] = await Room.updateOneById(id);
-    return res.status(200).json({ message: "La chambre a bien été créée" }, room);
+    await Room.updateOneById(req.newRoom, id);
+    const [[room]] = await Room.findOneById(id);
+    return res.status(200).json({ message: "La chambre a bien été créée", room });
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -47,7 +47,7 @@ const updateOneById = async (req, res) => {
 const deleteOneById = async (req, res) => {
   try {
     const [result] = await Room.deleteOneById(req.params.id);
-    if (!result) {
+    if (result.affectedRows <= 0) {
       return res.status(404).send("Chambre introuvable");
     }
     return res.status(204).json("Chambre supprimée");

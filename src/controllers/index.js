@@ -8,6 +8,8 @@ const ProvinceController = require("./province.controllers");
 const RoomController = require("./room.controllers");
 const UnderStatusController = require("./under_status.controllers");
 const EventsController = require("./events.controllers");
+const BooksController = require("./books.controllers");
+const MessageController = require("./message.controllers");
 
 module.exports = {
   UserController,
@@ -20,4 +22,6 @@ module.exports = {
   AssetsController,
   UnderStatusController,
   EventsController,
+  BooksController,
+  MessageController,
 };
