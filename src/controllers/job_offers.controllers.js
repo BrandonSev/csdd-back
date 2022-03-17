@@ -22,8 +22,7 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const { name } = req.body;
-    const [result] = await JobOffers.createOne(name);
+    const [result] = await JobOffers.createOne(req.newJobOffers);
     const [[newJobOffers]] = await JobOffers.findOneById(result.insertId);
     return res.status(201).send(newJobOffers);
   } catch (err) {

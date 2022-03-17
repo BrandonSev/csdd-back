@@ -5,9 +5,6 @@ const validatePostMessage = async (req, res, next) => {
   if (!message && !users_id) return res.status(422).json({ message: "Fournissez des valeurs correct" });
   req.newMessage = { message, users_id };
   return next();
-  } catch (err) {
-    return res.status(500).send(err.message);
-  }
 };
 
 const validatePutMessage = async (req, res, next) => {
