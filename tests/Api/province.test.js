@@ -4,8 +4,8 @@ const app = require("../../src/app");
 
 describe("Roles API Endpoint", () => {
   beforeAll(async () => {
-    const sql = "DELETE FROM province WHERE id > 0";
-    const sql2 = "ALTER TABLE province AUTO_INCREMENT=1";
+    const sql = "SET FOREIGN_KEY_CHECKS=0;DELETE FROM province WHERE id > 0";
+    const sql2 = "ALTER TABLE province AUTO_INCREMENT=1; SET FOREIGN_KEY_CHECKS=1;";
     await query(sql);
     await query(sql2);
   });
