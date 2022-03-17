@@ -1,6 +1,6 @@
 const jobOffersRouter = require("express").Router();
 const { JobOffersController } = require("../controllers");
-const { validatePostJobOffers, validatePutJobOffers } = require("../middleware/Roles");
+const { validatePostJobOffers, validatePutJobOffers } = require("../middleware/Job_offers");
 
 // GET
 jobOffersRouter.get("/", JobOffersController.findMany);

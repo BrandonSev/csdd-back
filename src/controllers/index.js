@@ -10,6 +10,7 @@ const UnderStatusController = require("./under_status.controllers");
 const EventsController = require("./events.controllers");
 const BooksController = require("./books.controllers");
 const MessageController = require("./message.controllers");
+const JobOffersController = require("./job_offers.controllers");
 
 module.exports = {
   UserController,
@@ -24,4 +25,5 @@ module.exports = {
   EventsController,
   BooksController,
   MessageController,
+  JobOffersController,
 };
