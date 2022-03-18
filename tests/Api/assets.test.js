@@ -1,6 +1,8 @@
 const request = require("supertest");
 const { query } = require("../../db-connection");
 const app = require("../../src/app");
+const fs = require("fs");
+const path = require("path");
 
 const userPayload = {
   firstname: "Brandon",
@@ -152,5 +154,14 @@ describe("Assets API Endpoint", () => {
     truncate assets_category;
     SET FOREIGN_KEY_CHECKS=1;`;
     await query(sql);
+    fs.readdir("assets", (err, files) => {
+      files.forEach((file) => {
+        if (file.includes("test")) {
+          fs.unlink(`assets/${file}`, (err2) => {
+            return !err2;
+          });
+        }
+      });
+    });
   });
 });
