@@ -21,6 +21,7 @@ module.exports = {
   ProvinceController,
   RoomController,
   AssetsController,
+assets_category,
   UnderStatusController,
   EventsController,
   BooksController,
