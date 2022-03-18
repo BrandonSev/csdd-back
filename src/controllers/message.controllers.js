@@ -22,7 +22,6 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const { name } = req.body;
     const [result] = await Message.createOne(req.newMessage);
     const [[newMessage]] = await Message.findOneById(result.insertId);
     return res.status(201).send(newMessage);
