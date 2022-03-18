@@ -155,7 +155,7 @@ describe("Assets API Endpoint", () => {
     SET FOREIGN_KEY_CHECKS=1;`;
     await query(sql);
     fs.readdir("assets", (err, files) => {
-      files.forEach((file) => {
+      files?.forEach((file) => {
         if (file.includes("test")) {
           fs.unlink(`assets/${file}`, (err2) => {
             return !err2;
