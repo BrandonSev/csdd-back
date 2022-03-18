@@ -26,4 +26,3 @@ module.exports = {
   BooksController,
   MessageController,
   JobOffersController,
-};
