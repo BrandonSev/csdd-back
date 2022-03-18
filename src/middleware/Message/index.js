@@ -16,7 +16,7 @@ const validatePutMessage = async (req, res, next) => {
   try {
     const [message] = await Message.findOneByName(name);
     if (message.length) return res.status(422).json({ message: "Un rôle sous ce nom existe déjà" });
-    req.nexMessage = { name };
+    req.newMessage = { name };
     return next();
   } catch (err) {
     return res.status(500).send(err.message);
