@@ -12,8 +12,8 @@ const findMany = async (req, res) => {
 const findOneById = async (req, res) => {
   const { id } = req.params;
   try {
-    const [result] = await Books.findOneById(id);
-    if (!result.length) return res.status(404).send();
+    const [[result]] = await Books.findOneById(id);
+    if (!result) return res.status(404).send();
     return res.status(200).send(result);
   } catch (err) {
     return res.status(500).send(err.message);
@@ -33,8 +33,8 @@ const createOne = async (req, res) => {
 const updateOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Books.updateOneById(req.books, id);
-    const [books] = await Books.findOneById(id);
+    await Books.updateOneById(req.book, id);
+    const [[books]] = await Books.findOneById(id);
     return res.status(200).send(books);
   } catch (err) {
     return res.status(500).send(err.message);
@@ -44,8 +44,8 @@ const updateOneById = async (req, res) => {
 const deleteOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await Books.findOneById(id);
-    if (result <= 0) return res.status(404).send("Livre introuvable");
+    const [[result]] = await Books.findOneById(id);
+    if (!result) return res.status(404).send("Livre introuvable");
     await Books.deleteOneById(id);
     return res.status(204).send();
   } catch (err) {
