@@ -11,5 +11,21 @@ const UnderStatus = require("./under_status.model");
 const Events = require("./events.models");
 const Books = require("./books.model");
 const Message = require("./message.model");
+const Category = require("./category.model");
 
-module.exports = { User, Status, Roles, ReceptionPlace, Assets, AdoptionPlace, Province, Room, JobOffers, UnderStatus, Message, Books, Events };
+module.exports = {
+  User,
+  Status,
+  Roles,
+  ReceptionPlace,
+  Assets,
+  AdoptionPlace,
+  Province,
+  Room,
+  JobOffers,
+  UnderStatus,
+  Message,
+  Books,
+  Events,
+  Category,
+};

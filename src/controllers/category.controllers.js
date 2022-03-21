@@ -1,8 +1,8 @@
-const { Categories } = require("../models");
+const { Category } = require("../models");
 
 const findMany = async (req, res) => {
   try {
-    const [result] = await Categories.findMany();
+    const [result] = await Category.findMany();
     return res.status(200).send(result);
   } catch (err) {
     return res.status(500).send(err.message);
@@ -12,7 +12,7 @@ const findMany = async (req, res) => {
 const findOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    const [[result]] = await Categories.findOneById(id);
+    const [[result]] = await Category.findOneById(id);
     if (!result) return res.status(404).send();
     return res.status(200).send(result);
   } catch (err) {
@@ -23,8 +23,8 @@ const findOneById = async (req, res) => {
 const createOne = async (req, res) => {
   try {
     const { name } = req.body;
-    const [result] = await Categories.createOne(name);
-    const [[newCategory]] = await Categories.findOneById(result.insertId);
+    const [result] = await Category.createOne(name);
+    const [[newCategory]] = await Category.findOneById(result.insertId);
     return res.status(201).send(newCategory);
   } catch (err) {
     return res.status(500).send(err.message);
@@ -34,8 +34,8 @@ const createOne = async (req, res) => {
 const updateOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Categories.updateOneById(req.newCategory, id);
-    const [newCategory] = await Categories.findOneById(id);
+    await Category.updateOneById(req.newCategory, id);
+    const [[newCategory]] = await Category.findOneById(id);
     return res.status(200).send(newCategory);
   } catch (err) {
     return res.status(500).send(err.message);
@@ -45,9 +45,9 @@ const updateOneById = async (req, res) => {
 const removeOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await Categories.findOneById(id);
+    const [result] = await Category.findOneById(id);
     if (!result.length) return res.status(404).send();
-    await Categories.removeOneById(id);
+    await Category.removeOneById(id);
     return res.status(204).send();
   } catch (err) {
     return res.status(500).send(err.message);

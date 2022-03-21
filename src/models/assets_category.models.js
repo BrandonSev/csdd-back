@@ -6,29 +6,29 @@ class AssetsCategory {
     return connection.promise().query(sql);
   }
 
-  static findOneById(id) {
-    const sql = "SELECT * FROM assets_category WHERE id=?";
-    return connection.promise().query(sql, [id]);
+  static findOneById(assetId, categoryId) {
+    const sql = "SELECT * FROM assets_category WHERE assets_id=? AND categories_id=?";
+    return connection.promise().query(sql, [assetId, categoryId]);
   }
 
-  static findOneByName(name) {
-    const sql = "SELECT * FROM assets_category WHERE name=?";
-    return connection.promise().query(sql, [name]);
+  static createOne(values) {
+    const sql = "INSERT INTO assets_category SET ?";
+    return connection.promise().query(sql, [values]);
   }
 
-  static createOne(name) {
-    const sql = "INSERT INTO assets_category SET name=?";
-    return connection.promise().query(sql, [name]);
+  static updateOneById(newValue, assetId, categoryId) {
+    const sql = "UPDATE assets_category SET ? WHERE assets_id=? AND categories_id=?";
+    return connection.promise().query(sql, [newValue, assetId, categoryId]);
   }
 
-  static updateOneById(newValue, id) {
-    const sql = "UPDATE assets_category SET ? WHERE id=?";
-    return connection.promise().query(sql, [newValue, id]);
+  static removeByAssetId(assetId) {
+    const sql = "DELETE FROM assets_category WHERE assets_id=?";
+    return connection.promise().query(sql, [assetId]);
   }
 
-  static removeOneById(id) {
-    const sql = "DELETE FROM assets_category WHERE id=?";
-    return connection.promise().query(sql, [id]);
+  static removeByCategoryId(assetId, categoryId) {
+    const sql = "DELETE FROM assets_category WHERE categories_id=?";
+    return connection.promise().query(sql, [categoryId]);
   }
 }
 

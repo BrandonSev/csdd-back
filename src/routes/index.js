@@ -12,6 +12,7 @@ const underStatusRouter = require("./under_status.routes");
 const eventsRouter = require("./events.routes");
 const booksRouter = require("./books.routes");
 const messagesRouter = require("./message.routes");
+const categoryRouter = require("./category.routes");
 
 mainRouter.use("/users", usersRouter);
 mainRouter.use("/roles", rolesRouter);
@@ -27,5 +28,6 @@ mainRouter.use("/underStatus", underStatusRouter);
 mainRouter.use("/events", eventsRouter);
 mainRouter.use("/books", booksRouter);
 mainRouter.use("/messages", messagesRouter);
+mainRouter.use("/categories", categoryRouter);
 
 module.exports = mainRouter;
