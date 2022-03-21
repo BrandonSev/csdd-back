@@ -22,7 +22,7 @@ mainRouter.use("/assets", assetsRouter);
 mainRouter.use("/adoptionPlace", adoptionPlaceRouter);
 mainRouter.use("/province", provinceRouter);
 mainRouter.use("/room", roomRouter);
-mainRouter.use("/job_offers", jobOffersRouter);
+mainRouter.use("/jobOffers", jobOffersRouter);
 mainRouter.use("/rooms", roomRouter);
 mainRouter.use("/underStatus", underStatusRouter);
 mainRouter.use("/events", eventsRouter);
