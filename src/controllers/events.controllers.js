@@ -22,7 +22,7 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const [result] = await Events.createOne(req.Events);
+    const [result] = await Events.createOne(req.event);
     const [[newEvents]] = await Events.findOneById(result.insertId);
     return res.status(201).send(newEvents);
   } catch (err) {
@@ -33,8 +33,8 @@ const createOne = async (req, res) => {
 const updateOneById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Events.updateOneById(req.Events, id);
-    const [newEvents] = await Events.findOneById(id);
+    await Events.updateOneById(req.event, id);
+    const [[newEvents]] = await Events.findOneById(id);
     return res.status(200).send(newEvents);
   } catch (err) {
     return res.status(500).send(err.message);

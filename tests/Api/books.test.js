@@ -1,4 +1,5 @@
 const request = require("supertest");
+const fs = require("fs");
 const { query } = require("../../db-connection");
 const app = require("../../src/app");
 const { Books } = require("../../src/models");
@@ -74,6 +75,17 @@ describe("Books API Endpoint", () => {
     it.only("DELETE /api/books/2", async () => {
       const res = await request(app).delete("/api/books/2").send();
       expect(res.statusCode).toBe(404);
+    });
+  });
+  afterAll(() => {
+    fs.readdir("assets", (err, files) => {
+      files?.forEach((file) => {
+        if (file.includes("test")) {
+          fs.unlink(`assets/${file}`, (err2) => {
+            return !err2;
+          });
+        }
+      });
     });
   });
 });
