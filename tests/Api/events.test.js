@@ -11,17 +11,24 @@ describe("Events API Endpoint", () => {
     await query(sql);
   });
   describe("Create new event", () => {
-    it("should create event and return code 201", async () => {
+    it("should create event with all valid value and return code 201", async () => {
+      const res = await request(app)
+        .post("/api/events")
+        .field("data", JSON.stringify({ event_date: "2022-02-26 18:00", description: "description", event_link: "https://google.fr" }))
+        .attach("assets", `${__dirname}/test.svg`);
+      expect(res.statusCode).toBe(201);
+    });
+    it("should create event without file and return code 422", async () => {
+      const res = await request(app)
+        .post("/api/events")
+        .field("data", JSON.stringify({ event_date: "2022-02-26 18:00", description: "description", event_link: "https://google.fr" }));
+      expect(res.statusCode).toBe(422);
+    });
+    it("should create event with no event_link and return code 422", async () => {
       const res = await request(app)
         .post("/api/events")
         .field("data", JSON.stringify({ event_date: "2022-02-26 18:00", description: "description" }))
         .attach("assets", `${__dirname}/test.svg`);
-      expect(res.statusCode).toBe(201);
-    });
-    it("should create event and return code 422", async () => {
-      const res = await request(app)
-        .post("/api/events")
-        .field("data", JSON.stringify({ event_date: "2022-02-26 18:00", description: "description" }));
       expect(res.statusCode).toBe(422);
     });
   });
@@ -30,7 +37,7 @@ describe("Events API Endpoint", () => {
       const res = await request(app).get("/api/events/1").send();
       expect(res.statusCode).toBe(200);
     });
-    it("should get event and return code 404", async () => {
+    it("should get event with id no existing and return code 404", async () => {
       const res = await request(app).get("/api/events/2").send();
       expect(res.statusCode).toBe(404);
     });
@@ -40,7 +47,7 @@ describe("Events API Endpoint", () => {
     });
   });
   describe("PUT event", () => {
-    it("should put event and return code 200", async () => {
+    it("should put event with id existing and return code 200", async () => {
       const res = await request(app)
         .put("/api/events/1")
         .field("data", JSON.stringify({ event_date: "2022-03-22 18:00" }));
