@@ -12,7 +12,7 @@ class JobOffers {
   }
 
   // static findOneByName(poste) {
-  //   const sql = "SELECT * FROM job_offers WHERE poste=?";
+  //   const sql = "SELECT * FROM JobOffers WHERE poste=?";
   //   return connection.promise().query(sql, [poste]);
   // }
 

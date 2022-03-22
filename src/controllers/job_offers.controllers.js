@@ -34,7 +34,7 @@ const updateOneById = async (req, res) => {
   try {
     const { id } = req.params;
     await JobOffers.updateOneById(req.job_offers, id);
-    const [newJobOffers] = await JobOffers.findOneById(id);
+    const [[newJobOffers]] = await JobOffers.findOneById(id);
     return res.status(200).send(newJobOffers);
   } catch (err) {
     return res.status(500).send(err.message);
