@@ -13,6 +13,7 @@ const eventsRouter = require("./events.routes");
 const booksRouter = require("./books.routes");
 const messagesRouter = require("./message.routes");
 const categoryRouter = require("./category.routes");
+const mailsRouter = require("./mail.routes");
 
 mainRouter.use("/users", usersRouter);
 mainRouter.use("/roles", rolesRouter);
@@ -29,5 +30,6 @@ mainRouter.use("/events", eventsRouter);
 mainRouter.use("/books", booksRouter);
 mainRouter.use("/messages", messagesRouter);
 mainRouter.use("/categories", categoryRouter);
+mainRouter.use("/mails", mailsRouter);
 
 module.exports = mainRouter;
