@@ -1,10 +1,10 @@
 const usersRouter = require("express").Router();
 
 const { UserController } = require("../controllers");
-const { validatePutUser, validatePostUser } = require("../middleware/User");
+const { validatePutUser, validatePostUser, checkUserQuery } = require("../middleware/User");
 
 // GET
-usersRouter.get("/", UserController.findMany);
+usersRouter.get("/", checkUserQuery, UserController.findMany);
 usersRouter.get("/:id", UserController.findOneById);
 
 // POST

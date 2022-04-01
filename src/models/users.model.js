@@ -31,6 +31,12 @@ class User {
     const sql = "DELETE FROM users WHERE id = ?";
     return connection.promise().query(sql, [id]);
   }
+
+  static findOneByFirstnameAndLastname(firstname, lastname) {
+    const sql =
+      "SELECT id, firstname, lastname, birthday, address, postal_code, city, email, phone, adoption_date, picture, cotisation_payed, active, status_id, province_id, reception_place_id, room_id, adoption_place_id FROM users WHERE firstname=? AND lastname=?";
+    return connection.promise().query(sql, [firstname, lastname]);
+  }
 }
 
 module.exports = User;
