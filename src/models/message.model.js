@@ -16,9 +16,9 @@ class Message {
     return connection.promise().query(sql, [name]);
   }
 
-  static createOne(name) {
+  static createOne(message) {
     const sql = "INSERT INTO messages SET ?";
-    return connection.promise().query(sql, [name]);
+    return connection.promise().query(sql, [message]);
   }
 
   static updateOneById(newValue, id) {

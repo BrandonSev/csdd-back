@@ -12,26 +12,30 @@ const findMany = async (req, res) => {
 
 // Méthode qui permet de recuperer un utilisateur par son ID
 const findOneById = async (req, res) => {
+  const status = req.method === "POST" ? 201 : 200;
+  const id = req.params.id ? req.params.id : req.id;
   try {
-    const { id } = req.params;
     const [[results]] = await User.findOneById(id);
     if (!results) return res.status(404).send();
-    return res.json(results);
+    return res.status(status).json({ ...results, roles: results.roles.split(",") });
   } catch (err) {
     return res.status(500).send(err.message);
   }
 };
 
-// Méthode qui permet de créer un utilisteur
-const createOne = async (req, res) => {
+// Méthode qui permet de créer un utilisateur
+const createOne = async (req, res, next) => {
   try {
     const [result] = await User.createOne(req.userInformation);
     const [[userCreated]] = await User.findOneById(result.insertId);
-    return res.status(201).json({
-      message:
-        "Votre demande à bien été enregistrer, votre compte est en cours de validation, vous serez avertis par mail lors de l'activation de votre compte",
-      user: userCreated,
-    });
+    req.newUser = userCreated;
+    req.id = result.insertId;
+    return next();
+    // return res.status(201).json({
+    //   message:
+    //     "Votre demande à bien été enregistrer, votre compte est en cours de validation, vous serez avertis par mail lors de l'activation de votre compte",
+    //   user: userCreated,
+    // });
   } catch (err) {
     return res.status(500).json(err.message);
   }

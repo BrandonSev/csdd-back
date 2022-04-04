@@ -1,8 +1,11 @@
-const { User } = require("../../models");
+const { User, Message } = require("../../models");
+const argon2 = require("argon2");
+const jwt = require("jsonwebtoken");
+const moment = require("moment");
 
 const validatePutUser = async (req, res, next) => {
   try {
-    const { address, postal_code, city, phone, password, picture } = req.body;
+    const { address, postal_code, city, phone, email, password, picture, province_id, adoption_place_id, adoption_date } = req.body;
     // Vérifie si l'utilisateur existe bien dans la BDD
     const [[user]] = await User.findOneById(req.params.id);
     if (!user) return res.sendStatus(404);
@@ -25,10 +28,23 @@ const validatePutUser = async (req, res, next) => {
       userInformation.phone = phone;
     }
     if (password) {
-      userInformation.password = password;
+      const hasedPassword = await argon2.hash(password);
+      userInformation.password = hasedPassword;
     }
     if (picture) {
       userInformation.picture = picture;
+    }
+    if (email) {
+      userInformation.email = email;
+    }
+    if (province_id) {
+      userInformation.province_id = province_id;
+    }
+    if (adoption_place_id) {
+      userInformation.adoption_place_id = adoption_place_id;
+    }
+    if (adoption_date) {
+      userInformation.adoption_date = adoption_date;
     }
     // On envoie dans la requete l'objet des valeurs saisie depuis la requete
     req.userInformation = userInformation;
@@ -40,13 +56,30 @@ const validatePutUser = async (req, res, next) => {
 
 const validatePostUser = async (req, res, next) => {
   try {
-    const { firstname, lastname, birthday, address, postal_code, city, email, phone, password, adoption_place_id, province_id } = req.body;
-    const user = { firstname, lastname, birthday, address, postal_code, city, email, phone, password, province_id, adoption_place_id };
+    const { firstname, lastname, birthday, address, postal_code, city, email, phone, password, adoption_place_id, province_id, adoption_date } =
+      req.body;
+    const user = { firstname, lastname, birthday, address, postal_code, city, email, phone, password, province_id, adoption_place_id, adoption_date };
     const [[userWithEmail]] = await User.findOneByEmail(email);
     if (email && userWithEmail) {
       return res.status(422).json({ message: "Cet email est déjà enregistré, veuillez vous connecter" });
     }
-    if (firstname && lastname && birthday && address && postal_code && city && email && phone && password && province_id && adoption_place_id) {
+    if (
+      firstname &&
+      lastname &&
+      birthday &&
+      address &&
+      postal_code &&
+      city &&
+      email &&
+      phone &&
+      password &&
+      province_id &&
+      adoption_place_id &&
+      adoption_date
+    ) {
+      console.log(password);
+      const hasedPassword = await argon2.hash(password);
+      user.password = hasedPassword;
       req.userInformation = user;
       return next();
     }
@@ -62,7 +95,14 @@ const checkUserQuery = async (req, res, next) => {
     try {
       const [user] = await User.findOneByFirstnameAndLastname(firstname, lastname);
       if (!user.length) return res.status(404).send();
-      return res.status(200).send(user);
+      return res.status(200).send([
+        {
+          ...user[0],
+          adoption_date: user[0].adoption_date ? moment(user[0].adoption_date).format("YYYY-MM-DD") : user[0].adoption_date,
+          reception_date: user[0].reception_date ? moment(user[0].reception_date).format("YYYY-MM-DD") : user[0].reception_date,
+          birthday: user[0].birthday ? moment(user[0].birthday).format("YYYY-MM-DD") : user[0].birthday,
+        },
+      ]);
     } catch (err) {
       return res.send(err.message);
     }
@@ -73,8 +113,62 @@ const checkUserQuery = async (req, res, next) => {
   return next();
 };
 
+const requestCreateUser = async (req, res, next) => {
+  try {
+    await Message.createOne({
+      message: `${req.newUser.firstname} ${req.newUser.lastname} à fait une demande d'accès à la plateforme.`,
+      users_id: req.newUser.id,
+    });
+    return next();
+  } catch (err) {
+    return res.send(err.message);
+  }
+};
+
+const isAuthenticated = async (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    return jwt.verify(token, process.env.TOKEN_SECRET, (err) => {
+      if (err) return res.send(err);
+      return next();
+    });
+  } else {
+    return res.status(403).json({ message: "Vous devez être connecté pour continuer" });
+  }
+};
+
+const checkAdmin = (req, res, next) => {
+  const { firstname, lastname, birthday, room_id, reception_place_id, reception_date } = req.body;
+  // verifier si l'utilisateur a le role admin
+  const roles = req.user.roles.split(",");
+  if (roles.includes("admin")) {
+    if (firstname) {
+      req.userInformation = { ...req.userInformation, firstname };
+    }
+    if (lastname) {
+      req.userInformation = { ...req.userInformation, lastname };
+    }
+    if (birthday) {
+      req.userInformation = { ...req.userInformation, birthday };
+    }
+    if (room_id) {
+      req.userInformation = { ...req.userInformation, room_id };
+    }
+    if (reception_place_id) {
+      req.userInformation = { ...req.userInformation, reception_place_id };
+    }
+    if (reception_date) {
+      req.userInformation = { ...req.userInformation, reception_date };
+    }
+  }
+  return next();
+};
+
 module.exports = {
   validatePutUser,
   validatePostUser,
   checkUserQuery,
+  requestCreateUser,
+  isAuthenticated,
+  checkAdmin,
 };
