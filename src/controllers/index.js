@@ -12,6 +12,7 @@ const BooksController = require("./books.controllers");
 const MessageController = require("./message.controllers");
 const JobOffersController = require("./job_offers.controllers");
 const CategoryController = require("./category.controllers");
+const AuthController = require("./auth.controllers");
 
 module.exports = {
   UserController,
@@ -28,4 +29,5 @@ module.exports = {
   MessageController,
   JobOffersController,
   CategoryController,
+  AuthController,
 };

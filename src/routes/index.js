@@ -14,6 +14,7 @@ const booksRouter = require("./books.routes");
 const messagesRouter = require("./message.routes");
 const categoryRouter = require("./category.routes");
 const mailsRouter = require("./mail.routes");
+const authRouter = require("./auth.routes");
 
 mainRouter.use("/users", usersRouter);
 mainRouter.use("/roles", rolesRouter);
@@ -31,5 +32,6 @@ mainRouter.use("/books", booksRouter);
 mainRouter.use("/messages", messagesRouter);
 mainRouter.use("/categories", categoryRouter);
 mainRouter.use("/mails", mailsRouter);
+mainRouter.use("/auth", authRouter);
 
 module.exports = mainRouter;
