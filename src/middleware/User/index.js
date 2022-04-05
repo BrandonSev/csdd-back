@@ -138,7 +138,7 @@ const isAuthenticated = async (req, res, next) => {
 };
 
 const checkAdmin = (req, res, next) => {
-  const { firstname, lastname, birthday, room_id, reception_place_id, reception_date } = req.body;
+  const { firstname, lastname, birthday, room_id, reception_place_id, reception_date, cotisation_payed } = req.body;
   // verifier si l'utilisateur a le role admin
   const roles = req.user.roles.split(",");
   if (roles.includes("admin")) {
@@ -159,6 +159,9 @@ const checkAdmin = (req, res, next) => {
     }
     if (reception_date) {
       req.userInformation = { ...req.userInformation, reception_date };
+    }
+    if (typeof cotisation_payed === "number") {
+      req.userInformation = { ...req.userInformation, cotisation_payed };
     }
   }
   return next();
