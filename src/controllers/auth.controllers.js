@@ -1,7 +1,8 @@
 require("dotenv").config();
 const argon2 = require("argon2");
-const { User } = require("../models");
+const { User, Token } = require("../models");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 // Function qui permet de génerer un token jwt
@@ -55,4 +56,47 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { signIn, logout };
+const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    const [[user]] = await User.findOneByEmail(email);
+    if (!user.id) return res.status(404).send({ message: "Aucun compte n'a été trouvé avec cet email" });
+
+    const [[token]] = await Token.findOneByUserId(user.id);
+    let newToken;
+    if (!token) {
+      const [newTokenCreated] = await Token.createOne({
+        users_id: user.id,
+        token: crypto.randomBytes(32).toString("hex"),
+      });
+      [[newToken]] = await Token.findOneById(newTokenCreated.insertId);
+    }
+    req.link = `${process.env.CLIENT_ORIGIN}/password/reset-password/${user.id}/${token ? token.token : newToken.token}`;
+    return next();
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  const { token, userId } = req.params;
+  const { password, confirmPassword } = req.body;
+
+  if (!password && !confirmPassword) return res.status(400).send({ message: "fd" });
+  if (password !== confirmPassword) return res.status(400).send({ message: "test" });
+  if (token && userId) {
+    const [[userToken]] = await Token.findOneByUserIdAndToken(userId, token);
+    if (!userToken) return res.status(404).send();
+    await User.updateOneById(
+      {
+        password: await argon2.hash(password),
+      },
+      userId,
+    );
+    await Token.removeOneByUsersId(userId);
+    return res.status(200).send({ message: "Le mot de passe à bien été modifié" });
+  }
+  return res.status(400).send({ message: "Toutes les informations nécessaire sont requises" });
+};
+
+module.exports = { signIn, logout, forgotPassword, resetPassword };

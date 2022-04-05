@@ -12,6 +12,7 @@ const Events = require("./events.models");
 const Books = require("./books.model");
 const Message = require("./message.model");
 const Category = require("./category.model");
+const Token = require("./token.model");
 
 module.exports = {
   User,
@@ -28,4 +29,5 @@ module.exports = {
   Books,
   Events,
   Category,
+  Token,
 };
