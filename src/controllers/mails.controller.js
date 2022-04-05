@@ -18,8 +18,8 @@ const send = (req, res) => {
   const emailOption = {
     from: EMAIL_USED,
     to: req.body.email,
-    subject: "Vous avez demandé à réunitialiser votre mot de passe.",
-    text: `Merci d'utiliser le lien pour réinitialiser votre mot de passe`,
+    subject: "Vous avez demandé à réinitialiser votre mot de passe.",
+    text: `Merci d'utiliser le lien pour réinitialiser votre mot de passe: ${req.link}`,
   };
   transport.sendMail(emailOption, (err) => {
     if (err) {
