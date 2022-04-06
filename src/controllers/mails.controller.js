@@ -19,7 +19,8 @@ const send = (req, res) => {
     from: EMAIL_USED,
     to: req.body.email,
     subject: "Vous avez demandé à réinitialiser votre mot de passe.",
-    text: `Merci d'utiliser le lien pour réinitialiser votre mot de passe: ${req.link}`,
+    html: `<h1>Réinitialisation de votre mot de passe</h1><p>Bonjour,<br/><br/>Vous avez demandé à réinitialiser votre mot de passe.<br/>Nous vous remercions d'utiliser le lien suivant : ${req.link} afin de procéder à sa réinitialisation.<br/><br/>Bien cordialement,<br/><br/>L'équipe des Compagnons Sérruriers Du Devoir.</p><h3><font color="red">Ceci est un message automatique, merci de ne pas
+    repondre.</font></h3>`,
   };
   transport.sendMail(emailOption, (err) => {
     if (err) {
