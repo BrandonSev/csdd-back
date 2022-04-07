@@ -60,7 +60,7 @@ const validatePostUser = async (req, res, next) => {
       req.body;
     const user = { firstname, lastname, birthday, address, postal_code, city, email, phone, password, province_id, adoption_place_id, adoption_date };
     const [[userWithEmail]] = await User.findOneByEmail(email);
-    if (email && userWithEmail) {
+    if (userWithEmail.id) {
       return res.status(422).json({ message: "Cet email est déjà enregistré, veuillez vous connecter" });
     }
     if (
@@ -77,7 +77,6 @@ const validatePostUser = async (req, res, next) => {
       adoption_place_id &&
       adoption_date
     ) {
-      console.log(password);
       const hasedPassword = await argon2.hash(password);
       user.password = hasedPassword;
       req.userInformation = user;
@@ -85,7 +84,7 @@ const validatePostUser = async (req, res, next) => {
     }
     return res.status(400).json({ message: "Toutes les valeurs nécessaires a l'inscription sont requises" });
   } catch (err) {
-    return res.send(err.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -104,7 +103,7 @@ const checkUserQuery = async (req, res, next) => {
         },
       ]);
     } catch (err) {
-      return res.send(err.message);
+      return res.status(500).send(err.message);
     }
   }
   if (!firstname || !lastname) {
@@ -137,11 +136,12 @@ const isAuthenticated = async (req, res, next) => {
   }
 };
 
-const checkAdmin = (req, res, next) => {
-  const { firstname, lastname, birthday, room_id, reception_place_id, reception_date, cotisation_payed } = req.body;
+const checkAdmin = async (req, res, next) => {
+  const { id } = req.params;
+  const { firstname, lastname, birthday, room_id, reception_place_id, reception_date, cotisation_payed, roles, active } = req.body;
   // verifier si l'utilisateur a le role admin
-  const roles = req.user.roles.split(",");
-  if (roles.includes("admin")) {
+  const userRole = req.user?.roles?.split(",");
+  if (userRole?.includes("admin")) {
     if (firstname) {
       req.userInformation = { ...req.userInformation, firstname };
     }
@@ -162,6 +162,15 @@ const checkAdmin = (req, res, next) => {
     }
     if (typeof cotisation_payed === "number") {
       req.userInformation = { ...req.userInformation, cotisation_payed };
+    }
+    if (typeof active === "number") {
+      req.userInformation = { ...req.userInformation, active };
+    }
+    if (roles && roles.length) {
+      await User.deleteOlderRolesForUser(id);
+      await roles.map(async (role) => {
+        await User.createRolesForUser(id, role);
+      });
     }
   }
   return next();
