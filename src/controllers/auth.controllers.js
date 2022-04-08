@@ -23,9 +23,10 @@ const signIn = async (req, res) => {
   if (!email || !password) return res.status(400).send();
   try {
     const [[user]] = await User.findOneByEmail(email);
-    if (!user) return res.status(404).send({ message: "Email introuvable" });
+    if (!user.email) return res.status(404).send({ message: "Email introuvable" });
     if (user.cotisation_payed === 0)
       return res.status(403).send({ message: "Vos cotisations ne sont pas à jour, veuillez régulariser vos cotisations" });
+    if (user.active !== 1) return res.status(403).send({ message: "Votre compte est en cours de validation" });
     const comparison = await argon2.verify(user.password, password);
     if (comparison) {
       const token = createToken(user.id);

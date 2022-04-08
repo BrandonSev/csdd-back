@@ -17,7 +17,7 @@ const findOneById = async (req, res) => {
   try {
     const [[results]] = await User.findOneById(id);
     if (!results) return res.status(404).send();
-    return res.status(status).json({ ...results, roles: results.roles.split(",") });
+    return res.status(status).json({ ...results, roles: results.roles?.split(",") });
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -45,6 +45,7 @@ const createOne = async (req, res, next) => {
 const updateOneById = async (req, res) => {
   try {
     await User.updateOneById(req.userInformation, req.params.id);
+    console.log(req.userInformation);
     const [[user]] = await User.findOneById(req.params.id);
     return res.status(200).json({ message: "Le compte à bien été modifier", user });
   } catch (err) {
