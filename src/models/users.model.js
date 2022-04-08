@@ -54,6 +54,12 @@ class User {
       "SELECT u.id, u.firstname, u.lastname, u.birthday, u.address, u.postal_code, u.city, u.email,u.phone, u.adoption_date, u.picture, u.cotisation_payed, u.active, u.reception_date, u.room_id, u.adoption_place_id, u.province_id, u.reception_place_id, GROUP_CONCAT(r.name, '') AS roles FROM users u LEFT JOIN users_roles ur ON ur.users_id=u.id LEFT JOIN roles r ON r.id=ur.roles_id WHERE u.firstname=? AND u.lastname=? GROUP BY u.id";
     return connection.promise().query(sql, [firstname, lastname]);
   }
+
+  static findOneByFirstnameLastnameAndBirthday(firstname, lastname, birthday) {
+    const sql =
+      "SELECT u.id, u.firstname, u.lastname, u.birthday, u.address, u.postal_code, u.city, u.email,u.phone, u.adoption_date, u.picture, u.cotisation_payed, u.active, u.reception_date, u.room_id, u.adoption_place_id, u.province_id, u.reception_place_id, GROUP_CONCAT(r.name, '') AS roles FROM users u LEFT JOIN users_roles ur ON ur.users_id=u.id LEFT JOIN roles r ON r.id=ur.roles_id WHERE u.firstname=? AND u.lastname=? AND u.birthday=? GROUP BY u.id";
+    return connection.promise().query(sql, [firstname, lastname, birthday]);
+  }
 }
 
 module.exports = User;
