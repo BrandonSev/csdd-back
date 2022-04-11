@@ -92,16 +92,14 @@ const checkUserQuery = async (req, res, next) => {
   const { firstname, lastname, birthday } = req.query;
   if (firstname && lastname) {
     try {
-      const [user] = await User.findOneByFirstnameAndLastname(firstname, lastname);
+      let user;
+      if (birthday) {
+        [user] = await User.findOneByFirstnameLastnameAndBirthday(firstname, lastname, birthday);
+      } else {
+        [user] = await User.findOneByFirstnameAndLastname(firstname, lastname);
+      }
       if (!user.length) return res.status(404).send();
-      return res.status(200).send([
-        {
-          ...user[0],
-          adoption_date: user[0].adoption_date ? moment(user[0].adoption_date).format("YYYY-MM-DD") : user[0].adoption_date,
-          reception_date: user[0].reception_date ? moment(user[0].reception_date).format("YYYY-MM-DD") : user[0].reception_date,
-          birthday: user[0].birthday ? moment(user[0].birthday).format("YYYY-MM-DD") : user[0].birthday,
-        },
-      ]);
+      return res.status(200).send(user);
     } catch (err) {
       return res.status(500).send(err.message);
     }
