@@ -4,7 +4,7 @@ const { User, Token } = require("../models");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
-const maxAge = 3 * 24 * 60 * 60 * 1000;
+const maxAge = 3600 * 1000;
 // Function qui permet de génerer un token jwt
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, {
@@ -42,7 +42,6 @@ const signIn = async (req, res) => {
     return res.status(500).send(e.message);
   }
 };
-
 /**
  * Middleware qui permet de déconnecter
  * @param req
