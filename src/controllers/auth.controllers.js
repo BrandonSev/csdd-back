@@ -66,9 +66,12 @@ const forgotPassword = async (req, res, next) => {
     const [[token]] = await Token.findOneByUserId(user.id);
     let newToken;
     if (!token) {
+      const date = new Date();
+      date.setMinutes(date.getMinutes() + 10);
       const [newTokenCreated] = await Token.createOne({
         users_id: user.id,
         token: crypto.randomBytes(32).toString("hex"),
+        expireAt: date,
       });
       [[newToken]] = await Token.findOneById(newTokenCreated.insertId);
     }
@@ -84,10 +87,14 @@ const resetPassword = async (req, res, next) => {
   const { password, confirmPassword } = req.body;
 
   if (!password && !confirmPassword) return res.status(400).send({ message: "fd" });
-  if (password !== confirmPassword) return res.status(400).send({ message: "test" });
+  if (password !== confirmPassword) return res.status(400).send({ message: "Les mots de passe ne correspondent pas" });
   if (token && userId) {
     const [[userToken]] = await Token.findOneByUserIdAndToken(userId, token);
     if (!userToken) return res.status(404).send();
+    if (new Date(userToken.expireAt).getTime() <= new Date().getTime()) {
+      await Token.removeOneByUsersId(userId);
+      return res.status(401).send({ message: "Le token à éxpiré, veuillez renouveller la demande" });
+    }
     await User.updateOneById(
       {
         password: await argon2.hash(password),
