@@ -129,9 +129,8 @@ const isAuthenticated = async (req, res, next) => {
       if (err) return res.send(err);
       return next();
     });
-  } else {
-    return res.status(403).json({ message: "Vous devez être connecté pour continuer" });
   }
+  return res.status(403).json({ message: "Vous devez être connecté pour continuer" });
 };
 
 const checkAdmin = async (req, res, next) => {
@@ -164,7 +163,7 @@ const checkAdmin = async (req, res, next) => {
     if (typeof active === "number") {
       req.userInformation = { ...req.userInformation, active };
     }
-    if (roles && roles.length) {
+    if (roles) {
       await User.deleteOlderRolesForUser(id);
       await roles.map(async (role) => {
         await User.createRolesForUser(id, role);
