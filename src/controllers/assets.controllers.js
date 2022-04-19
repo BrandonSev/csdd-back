@@ -24,12 +24,13 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const { file_date, roleId, categoryId } = req.body;
+    const { file_date, roleId, categoryId, title } = req.body;
     const arr = req.files.map(async (file) => {
       const [newAsset] = await Assets.createOne({
         filename: file.filename,
         type: file.filename.split(".")[1],
         file_date,
+        title,
       });
       roleId.map(async (role) => {
         await Assets.createAssetsWithRoles(newAsset.insertId, role);
