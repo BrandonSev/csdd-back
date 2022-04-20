@@ -2,8 +2,7 @@ const { connection } = require("../../db-connection");
 
 class Assets {
   static findMany() {
-    const sql =
-      "SELECT a.*, GROUP_CONCAT(r.name, '') as roles FROM assets a LEFT JOIN roles_assets ra on a.id=ra.assets_id LEFT JOIN roles r ON r.id=ra.roles_id";
+    const sql = "SELECT * FROM assets";
     return connection.promise().query(sql);
   }
 
@@ -60,7 +59,7 @@ class Assets {
 
   static updateAssetsCategory(id, category) {
     const sql = `INSERT INTO assets_category SET assets_id=?, categories_id=?;`;
-    return connection.promise().query(sql, [id, id, category]);
+    return connection.promise().query(sql, [id, category]);
   }
 }
 
