@@ -30,6 +30,11 @@ class Message {
     const sql = "DELETE FROM messages WHERE id=?";
     return connection.promise().query(sql, [id]);
   }
+
+  static removeByUserId(userId) {
+    const sql = "DELETE FROM messages WHERE users_id=?";
+    return connection.promise().query(sql, [userId]);
+  }
 }
 
 module.exports = Message;
