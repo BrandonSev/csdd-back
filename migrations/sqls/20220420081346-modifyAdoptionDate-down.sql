@@ -1,0 +1,1 @@
+ALTER TABLE users MODIFY adoption_date varchar(255) NOT NULL;

@@ -72,10 +72,10 @@ const validatePostUser = async (req, res, next) => {
       city &&
       email &&
       phone &&
-      password &&
-      province_id &&
-      adoption_place_id &&
-      adoption_date
+      password
+      // province_id &&
+      // adoption_place_id &&
+      // adoption_date
     ) {
       const hasedPassword = await argon2.hash(password);
       user.password = hasedPassword;
