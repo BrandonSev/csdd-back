@@ -1,11 +1,30 @@
 const multer = require("multer");
 const fs = require("fs");
 const { Assets } = require("../models");
+const { connection } = require("../../db-connection");
 
 const findMany = async (req, res) => {
   try {
     const [result] = await Assets.findMany();
-    return res.status(200).send(result);
+    const filterResult = [];
+    const assetsRoles = await Promise.all(
+      result.map(async (asset) => {
+        const [role] = await connection
+          .promise()
+          .query("SELECT GROUP_CONCAT(r.name,'') as roles FROM roles_assets ar LEFT JOIN roles r ON ar.roles_id=r.id WHERE ar.assets_id=?", [
+            asset.id,
+          ]);
+        const [categorie] = await connection
+          .promise()
+          .query(
+            "SELECT GROUP_CONCAT(c.name,'') as categories FROM assets_category ac LEFT JOIN categories c ON ac.categories_id=c.id WHERE ac.assets_id=?",
+            [asset.id],
+          );
+        return { ...asset, ...role[0], ...categorie[0] };
+        // filterResult.push(role);
+      }),
+    );
+    return res.status(200).send(assetsRoles);
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -24,12 +43,13 @@ const findOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   try {
-    const { file_date, roleId, categoryId } = req.body;
+    const { file_date, roleId, categoryId, title } = req.body;
     const arr = req.files.map(async (file) => {
       const [newAsset] = await Assets.createOne({
         filename: file.filename,
         type: file.filename.split(".")[1],
         file_date,
+        title,
       });
       roleId.map(async (role) => {
         await Assets.createAssetsWithRoles(newAsset.insertId, role);

@@ -7,7 +7,8 @@ class Assets {
   }
 
   static findOneById(id) {
-    const sql = "SELECT * FROM assets WHERE id=?";
+    const sql =
+      "SELECT a.*, GROUP_CONCAT(r.name, '') as roles FROM assets a LEFT JOIN roles_assets ra on a.id=ra.assets_id LEFT JOIN roles r ON r.id=ra.roles_id WHERE a.id=?";
     return connection.promise().query(sql, [id]);
   }
 
@@ -58,7 +59,7 @@ class Assets {
 
   static updateAssetsCategory(id, category) {
     const sql = `INSERT INTO assets_category SET assets_id=?, categories_id=?;`;
-    return connection.promise().query(sql, [id, id, category]);
+    return connection.promise().query(sql, [id, category]);
   }
 }
 
