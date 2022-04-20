@@ -161,6 +161,9 @@ const checkAdmin = async (req, res, next) => {
       req.userInformation = { ...req.userInformation, cotisation_payed };
     }
     if (typeof active === "number") {
+      if (active === 1) {
+        await Message.removeByUserId(id);
+      }
       req.userInformation = { ...req.userInformation, active };
     }
     if (roles) {
