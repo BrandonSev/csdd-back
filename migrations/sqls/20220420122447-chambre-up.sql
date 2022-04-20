@@ -1,0 +1,1 @@
+INSERT INTO room (name) VALUES ("Angers"),("Bordeaux"),("Dijon"),("Lyon"),("Marseille"),("Nancy"),("Nantes"),("Nîmes"),("Paris"),("Reims"),("Rennes"),("Saint-Etienne"),("Strasbourg"),("Toulouse"),("Tours"),("International");
