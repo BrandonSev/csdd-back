@@ -46,6 +46,10 @@ const deleteOneById = async (req, res) => {
     const { id } = req.params;
     const [[result]] = await Books.findOneById(id);
     if (!result) return res.status(404).send("Livre introuvable");
+    await fs.unlink(`assets/${result.filename}`, (err) => {
+      if (err) return res.status(500).send(err);
+      return true;
+    });
     await Books.deleteOneById(id);
     return res.status(204).send();
   } catch (err) {

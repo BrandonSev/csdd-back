@@ -6,7 +6,6 @@ const { connection } = require("../../db-connection");
 const findMany = async (req, res) => {
   try {
     const [result] = await Assets.findMany();
-    const filterResult = [];
     const assetsRoles = await Promise.all(
       result.map(async (asset) => {
         const [role] = await connection
@@ -21,7 +20,6 @@ const findMany = async (req, res) => {
             [asset.id],
           );
         return { ...asset, ...role[0], ...categorie[0] };
-        // filterResult.push(role);
       }),
     );
     return res.status(200).send(assetsRoles);

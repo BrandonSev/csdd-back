@@ -46,6 +46,10 @@ const removeOneById = async (req, res) => {
     const { id } = req.params;
     const [result] = await Events.findOneById(id);
     if (!result.length) return res.status(404).send();
+    fs.unlink(`assets/${result[0].filename}`, (err) => {
+      if (err) return res.status(500).send(err);
+      return true;
+    });
     await Events.removeOneById(id);
     return res.status(204).send();
   } catch (err) {
