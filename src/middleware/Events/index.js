@@ -17,7 +17,13 @@ const validatePutEvents = async (req, res, next) => {
   if (title) event.title = title;
   if (event_date) event.event_date = event_date;
   if (description) event.description = description;
-  if (req.files[0]) event.filename = req.files[0].filename;
+  if (req.files[0]) {
+    event.filename = req.files[0].filename;
+    fs.unlink(`assets/${events.filename}`, (err) => {
+      if (err) return res.status(500).send(err);
+      return true;
+    });
+  }
   if (event_link) event.event_link = event_link;
   req.event = event;
   return next();

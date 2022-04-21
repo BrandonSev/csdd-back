@@ -20,7 +20,13 @@ const validatePutBook = async (req, res, next) => {
   if (img_link) newBook.img_link = img_link;
   if (link) newBook.link = link;
   if (title) newBook.title = title;
-  if (req.files[0]) newBook.filename = req.files[0].filename;
+  if (req.files[0]) {
+    newBook.filename = req.files[0].filename;
+    fs.unlink(`assets/${book.filename}`, (err) => {
+      if (err) return res.status(500).send(err);
+      return true;
+    });
+  }
   req.book = newBook;
   return next();
 };
